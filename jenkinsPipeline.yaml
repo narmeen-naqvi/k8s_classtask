@@ -1,0 +1,20 @@
+pipeline:
+  agent:
+    any
+  
+  stages:
+    - stage: SyncRepo
+      steps:
+        - git:
+            url: 'https://github.com/narmeen-naqvi/k8s_classtask.git'
+            credentialsId: 'narmeennaqvi'
+            branch: 'main'
+  
+    - stage: BuildDockerImage
+      steps:
+        - sh 'docker build -t your-image-name .'
+  
+    - stage: DeployToKubernetes
+      steps:
+        - sh 'minikube start'
+        - sh 'kubectl apply -f kubernetesManifest.yaml'
